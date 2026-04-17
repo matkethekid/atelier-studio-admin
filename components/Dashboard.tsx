@@ -42,7 +42,7 @@ const colorMap: Record<CardColor, {
 };
 
 const recentActivities = [
-  { id: 0, text: "Dodat novi predavac", date: Date.now() - (60 * 60 * 1000) }
+  { id: 0, text: "Dodat novi predavac", date: Date.now() - (13 * 2592000 * 1000) }
 ];
 
 const Dashboard = () => {
@@ -67,14 +67,26 @@ const Dashboard = () => {
   function calculateTimeElapsed(start: number, end: number) {
     const elapsed = end - start;
     const elapsedInSeconds = elapsed / 1000;
-    if (elapsedInSeconds < 60) {
-      return Math.floor(elapsedInSeconds) + "s";
-    } else if (elapsedInSeconds < 3600) {
-      return Math.floor(elapsedInSeconds / 60) + "m";
+    const secondsInMinute = 60;
+    const secondsInHour = 60 * secondsInMinute; // 3600
+    const secondsInDay = 24 * secondsInHour; // 86400
+    const secondsInMonth = 30 * secondsInDay; // 2,592,000
+    const secondsInYear = 365 * secondsInDay; // 31,536,000
+
+    if (elapsedInSeconds >= secondsInYear) {
+      return Math.floor(elapsedInSeconds / secondsInYear) + "god";
+    } else if (elapsedInSeconds >= secondsInMonth) {
+      return Math.floor(elapsedInSeconds / secondsInMonth) + "m";
+    } else if (elapsedInSeconds >= secondsInDay) {
+      return Math.floor(elapsedInSeconds / secondsInDay) + "d";
+    } else if (elapsedInSeconds >= secondsInHour) {
+      return Math.floor(elapsedInSeconds / secondsInHour) + "h";
+    } else if (elapsedInSeconds >= secondsInMinute) {
+      return Math.floor(elapsedInSeconds / secondsInMinute) + "m";
     } else {
-      return Math.floor(elapsedInSeconds / 3600) + "h";
+      return Math.floor(elapsedInSeconds) + "s";
     }
-  }
+  };
   return (
     <div className='w-full min-h-screen bg-linear-to-br from-white via-zinc-50 to-zinc-100 p-5 flex flex-col gap-10'>
       <div className="w-full p-5 lg:p-7 rounded-xl border border-zinc-200/70 bg-white/40 backdrop-blur-lg shadow-[0_8px_30px_rgba(0,0,0,0.05)] flex flex-col gap-3 justify-start">
