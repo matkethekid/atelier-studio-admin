@@ -86,8 +86,8 @@ const LoginComponent = () => {
     <section>
       <Card className="p-7">
         <CardHeader>
-          <CardTitle>Uloguj se na svoj nalog</CardTitle>
-          <CardDescription>Unesi email i lozinku da nastaviš</CardDescription>
+          <CardTitle>{mfaActive ? "Verifikuj nalog" : "Uloguj se na svoj nalog"}</CardTitle>
+          <CardDescription>{mfaActive ? "Unesi verifikacioni kod koji si dobio u emailu" : "Unesi email i lozinku da nastaviš"}</CardDescription>
         </CardHeader>
         <div className="w-full h-full mx-auto">
           <form
