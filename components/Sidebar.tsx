@@ -27,7 +27,7 @@ const Sidebar = () => {
     const user = userObject.user;
   return (
     <aside className='w-full lg:max-w-[320px] min-h-screen bg-white flex flex-col justify-between gap-3 border-gray-300 border border-l-transparent'>
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex justify-between flex-col h-full">
             <div className="flex flex-col gap-5 pt-5 pb-4 pl-5 pr-5">
                 <div>
                     <p className={`${prata.className} text-lg`}>Atelier Studio</p>
@@ -51,9 +51,17 @@ const Sidebar = () => {
         </div>
         <div className="flex flex-row lg:hidden justify-between items-center p-5">
             <p className="text-lg">Atelier Studio</p>
-            <button onClick={() => setActiveSidebar(prev => !prev)}><Menu/></button>
+            <button onClick={() => setActiveSidebar(prev => !prev)}>{activeSidebar ? <X/> : <Menu/>}</button>
         </div>
-        <div className={activeSidebar ? "flex w-full h-full bg-red-500" : "hidden"}></div>
+        <div className={`flex w-full h-full flex-1 bg-zinc-50 transform transition-transform duration-300 ease-in-out ${activeSidebar ? "translate-x-0" : "translate-x-full"}`}>
+            <ul className="flex flex-col gap-4 mt-3 justify-center items-center w-full">
+                {
+                    links.map((link, index: number) => (
+                        <li key={index}><Link href={link.path} className="flex gap-3">{link.icon} {link.name}</Link></li>
+                    ))
+                }
+            </ul>
+        </div>
     </aside>
   )
 }
