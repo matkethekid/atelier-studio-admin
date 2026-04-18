@@ -68,7 +68,6 @@ const Dashboard = () => {
   const { user, isLoaded } = useUser();
   const date = new Date();
   const currentHour = date.getHours();
-  const start = now - 60 * 60 * 1000;
   const end = now;
   
   if (!isLoaded) {
