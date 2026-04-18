@@ -13,8 +13,8 @@ const prata = Prata({
 
 const links = [
   { id: 0, name: "Početna", icon: <Home size={20} />, path: "/" },
-  { id: 1, name: "Predavači", icon: <UserCog size={20} />, path: "/" },
-  { id: 2, name: "Recenzije", icon: <Star size={20} />, path: "/" },
+  { id: 1, name: "Predavači", icon: <UserCog size={20} />, path: "/predavaci" },
+  { id: 2, name: "Recenzije", icon: <Star size={20} />, path: "/recenzije" },
 ];
 
 const Sidebar = () => {
@@ -69,11 +69,7 @@ const Sidebar = () => {
         </button>
       </div>
     </aside>
-    <div
-      className={`fixed top-20 right-0 w-full h-full bg-zinc-50 z-50 transform transition-transform duration-300 ease-in-out lg:hidden ${
-        activeSidebar ? "translate-x-0" : "translate-x-full"
-      }`}
-    >
+    <div className={`fixed top-20 right-0 w-full h-full bg-zinc-50 z-50 transform transition-transform duration-300 ease-in-out lg:hidden ${ activeSidebar ? "translate-x-0" : "translate-x-full"}`}>
       <ul className="flex flex-col gap-4 mt-3 justify-center items-center w-full">
         {links.map((link, index: number) => (
           <li key={index}>
