@@ -1,9 +1,9 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
 import { Clock, Star, UserCog } from "lucide-react";
 import { ReactNode } from "react";
 import DashboardSkeleton from "./DashboardSkeleton";
+import useAuthentication from "@/app/stores/auth";
 
 type CardColor = "blue" | "green" | "red";
 
@@ -65,14 +65,10 @@ const recentActivities = [
 
 const Dashboard = () => {
   const now = Date.now();
-  const { user, isLoaded } = useUser();
   const date = new Date();
   const currentHour = date.getHours();
   const end = now;
-  
-  if (!isLoaded) {
-    return <DashboardSkeleton/>
-  }
+  const { accessToken } = useAuthentication();
 
   function generateGreeting() {
     if (currentHour < 12) {
@@ -113,7 +109,7 @@ const Dashboard = () => {
         <div>
           <p className="text-[0.8rem] uppercase">{generateGreeting()},</p>
           <p className="text-2xl">
-            {user ? `${user.firstName} ${user.lastName}` : <DashboardSkeleton />}
+            {accessToken}
           </p>
         </div>
         <p className="text-sm">Dobrodošli u Atelier Studio admin panel.</p>
