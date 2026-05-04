@@ -5,7 +5,8 @@ type AuthState = {
   expiresAt: number | null
   updateAccessToken: (token: string) => void
   setExpiresAt: (time: number) => void
-}
+  logOut: () => void
+};
 
 const useAuthentication = create<AuthState>((set) => ({
   accessToken: "",
@@ -16,6 +17,9 @@ const useAuthentication = create<AuthState>((set) => ({
 
   setExpiresAt: (time) =>
     set({ expiresAt: time }),
-}))
+  
+  logOut: () =>
+    set({ accessToken: "", expiresAt: null }),
+}));
 
 export default useAuthentication;

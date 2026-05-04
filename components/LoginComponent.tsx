@@ -8,11 +8,13 @@ import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import useAuthentication from "../app/stores/auth";
+import useUser from "@/app/stores/user";
 
 const LoginComponent = () => {
   const [error, setError] = useState("");
   const router = useRouter();
-  const { updateAccessToken } = useAuthentication();
+  const { updateAccessToken, setExpiresAt } = useAuthentication();
+  const { setEmail } = useUser();
 
   const form = useForm({
     defaultValues: { email: "", password: "" },
@@ -30,13 +32,14 @@ const LoginComponent = () => {
         });
         const data = await res.json();
         updateAccessToken(data.accessToken);
+        setExpiresAt(data.expiresAt);
+        setEmail(value.email);
         toast.success("Uspešan login");
         setTimeout(() => {
           router.push("/");
         }, 2000);
       } catch (err) {
         console.error(err);
-        setError("Neočekivana greška");
         toast.error("Neočekivana greška");
       }
     },
@@ -78,13 +81,9 @@ const LoginComponent = () => {
                 />
               )}
             </form.Field>
-              <Button
-                type="submit"
-                className="p-3 cursor-pointer"
-              >
-                Nastavi dalje
-              </Button>
-
+            <Button type="submit" className="p-3 cursor-pointer" >
+              Nastavi dalje
+            </Button>
             {error && (
               <p className="bg-red-200 pt-3 pb-3 pl-2 pr-2 rounded-md">{error}</p>
             )}

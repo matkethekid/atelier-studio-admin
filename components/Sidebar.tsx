@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { SignOutButton, UserAvatar, useUser } from "@clerk/nextjs";
+import { SignOutButton, UserAvatar } from "@clerk/nextjs";
 import { Home, LogOut, Star, UserCog, X, Menu } from "lucide-react";
 import { Prata } from "next/font/google";
 import Link from "next/link";
+import useUser from "@/app/stores/user";
 
 const prata = Prata({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ const links = [
 
 const Sidebar = () => {
   const [activeSidebar, setActiveSidebar] = useState<boolean>(false);
+  const { email } = useUser();
   
   useEffect(() => {
     if (activeSidebar) {
@@ -27,12 +29,6 @@ const Sidebar = () => {
       document.body.style.overflow = "auto";
     }
   }, [activeSidebar]);
-
-  const userObject = useUser();
-  if (!userObject) {
-    return;
-  }
-  const user = userObject.user;
   return (
     <>
     <aside className="w-full lg:max-w-[320px] lg:min-h-screen bg-white flex flex-col justify-between gap-3 border-gray-300 border border-l-transparent">
@@ -54,12 +50,9 @@ const Sidebar = () => {
         </div>
         <div className="flex flex-row gap-2 justify-between items-center border p-3">
           <div className="flex flex-row gap-2 items-center">
-            <UserAvatar />
-            <p>{user?.primaryEmailAddress?.emailAddress}</p>
+            <p>{email}</p>
           </div>
-          <SignOutButton>
-            <LogOut size={20} className="text-gray-500 cursor-pointer" />
-          </SignOutButton>
+          <LogOut size={20} className="text-gray-500 cursor-pointer" />
         </div>
       </div>
       <div className="flex flex-row lg:hidden justify-between items-center p-5">
